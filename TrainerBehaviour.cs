@@ -10,22 +10,33 @@ namespace YAZDHD.Trainer
 
 		private readonly Dictionary<KeyCode, Action> _actions = new Dictionary<KeyCode, Action>();
 
+		private FieldInfo _field;
+		private bool IsPlayerImmortal
+		{
+			get
+			{
+				return _field != null && (bool)_field.GetValue(null);
+			}
+			set
+			{
+				if (_field == null)
+					return;
+
+				_field.SetValue(null, value);
+			}
+			
+		}
+
 		void Start()
 		{
+			var dt = Type.GetType("DeveloperTools, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null", false);
+			_field = dt?.GetField("isPlayerImmortal", BindingFlags.Static | BindingFlags.Public);
+
 			_actions.Clear();
 
 			_actions.Add(KeyCode.KeypadMultiply, () =>
 			{
-				var dt = Type.GetType("DeveloperTools, Assembly-CSharp, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null");
-
-				var field = dt?.GetField("isPlayerImmortal", BindingFlags.Static | BindingFlags.Public);
-				if (field == null)
-					return;
-
-				var current = (bool)field.GetValue(null);
-				current = !current;
-
-				field.SetValue(null, current);
+				IsPlayerImmortal = !IsPlayerImmortal;
 			});
 
 			_actions.Add(KeyCode.KeypadDivide, () =>
@@ -59,6 +70,13 @@ namespace YAZDHD.Trainer
 				if (Input.GetKeyDown(keyCode))
 					_actions[keyCode]();
 			}
+		}
+
+		void OnGUI()
+		{
+			var godStatus = IsPlayerImmortal ? "on" : "off";
+			var display = $"Trainer loaded ! Use Keypad keys [*] God mode ({godStatus}), [/] Max all items, [+] Get stats points, [-] Get cash";
+			Render.DrawString(new Vector2(764, Screen.height - 16f), display, Color.white);
 		}
 	}
 }
