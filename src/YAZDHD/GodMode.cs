@@ -37,7 +37,7 @@ namespace TrainerKit.YAZDHD
 
 				_field.SetValue(null, value);
 			}
-			
+
 		}
 
 		static GodMode()
