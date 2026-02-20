@@ -9,6 +9,7 @@ This trainer was built using [TrainerKit](https://github.com/sailro/TrainerKit).
 How to use the trainer:
 - Start the game 
 - Run `TrainerKit.exe` to inject the trainer into the process (you do not need to copy files in a specific location).
+- Use `RightAlt` for the configuration menu.
 - Use keypad `*` to trigger god mode
 - Use keypad `/` to buy all weapons (999999 available+ammo)
 - Use keypad `+` to add 999999 skill points (use it when the skill menu appears)
